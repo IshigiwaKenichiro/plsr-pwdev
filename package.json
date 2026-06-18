@@ -1,0 +1,41 @@
+{
+  "name": "plsr-pwdev",
+  "version": "0.1.0",
+  "description": "Playwright CLI wrapper for local development — headed, persistent sessions, trusted localhost",
+  "author": "Kenichiro Ishigiwa",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IshigiwaKenichiro/plsr-pwdev.git"
+  },
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "bin": {
+    "pwdev": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepare": "tsup"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "^25.9.3",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
+  },
+  "peerDependencies": {
+    "@playwright/cli": ">=0.1.0"
+  }
+}
