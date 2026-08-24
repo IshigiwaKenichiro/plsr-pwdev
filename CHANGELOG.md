@@ -10,7 +10,7 @@
 
 初版リリース。
 
-### Added
+### 追加
 
 - `pwdev open <url>` — Playwright CLI を開発向けの既定値で起動する
   - `--headed` を自動付与し、常にブラウザを表示する
