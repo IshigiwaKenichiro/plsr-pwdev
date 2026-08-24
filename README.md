@@ -103,3 +103,7 @@ npm run dev   # ウォッチビルド
 ## ライセンス
 
 MIT
+
+## 変更履歴
+
+変更内容は [CHANGELOG.md](./CHANGELOG.md) を参照してください。
