@@ -74,3 +74,19 @@ Node.js の `child_process.spawn` は Windows の `.cmd` ファイルを直接�
 - **run-code のコードは `--filename` で渡す。** cross-spawn は `.cmd` を cmd.exe 経由で起動するので、複数行のコードは引数だと1行目で切れる
 - **erakis は依存に入れない。** カレントディレクトリ → グローバル → npx キャッシュの順に `erakis/profile` を探す
 - **password は最後に触る。** erakis のプロファイルの password は資格情報ストアから遅延で読まれるので、引数の確認を済ませてから読む
+
+# 開発パイプラインの設定
+
+流れは `~/.claude/guide4pipeline.md`。ここにはこのプロジェクトの差し替え部品だけを書く。
+
+| 項目 | このプロジェクト |
+|---|---|
+| 課題の入口 | GitHub Issue 直 |
+| 書き戻し | なし（Issue を閉じて終わり） |
+| 開発サイクル | 人のレビュアー＋CC |
+
+| 役割 | 環境名 | ツールのモード | 反映のしかた |
+|---|---|---|---|
+| 開発 | ローカル | なし | `npm run build` → `node dist/index.js <command>` |
+| 検証 | 開発と兼用 | なし | `dev/<version>` で `npm run build` → `npm install -g .` → `docs/verification.md` の手順 |
+| 本番 | npm | なし | main で `package.json` の version と CHANGELOG を上げる → `npm publish` → タグとリリース |
