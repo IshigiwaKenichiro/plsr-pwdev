@@ -1,7 +1,8 @@
-import spawn from 'cross-spawn';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { runLogin } from './login';
+import { runPlaywrightCli } from './playwrightCli';
 
 const PWDEV_DIR = path.join(os.homedir(), '.pwdev');
 const PROFILES_DIR = path.join(PWDEV_DIR, 'profiles');
@@ -49,33 +50,26 @@ const profilePath = path.join(PROFILES_DIR, profileName);
 // `open` コマンドの位置を探して各オプションを注入
 // -s=session のようなグローバルオプションが先頭にある場合を考慮
 const commandIdx = filteredArgs.findIndex(arg => !arg.startsWith('-'));
-const isOpenCommand = commandIdx !== -1 && filteredArgs[commandIdx] === 'open';
+const command = commandIdx !== -1 ? filteredArgs[commandIdx] : undefined;
 
-let finalArgs = filteredArgs;
+async function main(): Promise<number> {
+  // login は pwdev 独自のコマンドなので playwright-cli へは委譲しない
+  if (command === 'login') {
+    return runLogin(filteredArgs.slice(0, commandIdx), filteredArgs.slice(commandIdx + 1));
+  }
 
-if (isOpenCommand) {
+  if (command !== 'open') {
+    return runPlaywrightCli(filteredArgs);
+  }
+
   ensureConfig();
-  finalArgs = [
+  return runPlaywrightCli([
     ...filteredArgs.slice(0, commandIdx + 1),
     '--headed',
     '--profile', profilePath,
     '--config', CONFIG_PATH,
     ...filteredArgs.slice(commandIdx + 1),
-  ];
+  ]);
 }
 
-const child = spawn('playwright-cli', finalArgs, { stdio: 'inherit' });
-
-child.on('error', err => {
-  if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
-    console.error('エラー: playwright-cli が見つかりません。');
-    console.error('  npm install -g @playwright/cli');
-  } else {
-    console.error(`playwright-cli の起動に失敗しました: ${err.message}`);
-  }
-  process.exit(1);
-});
-
-child.on('exit', code => {
-  process.exit(code ?? 0);
-});
+main().then(code => process.exit(code));

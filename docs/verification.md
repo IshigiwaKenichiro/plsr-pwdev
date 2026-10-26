@@ -82,3 +82,29 @@ playwright-cli -s=raw eval "() => fetch('http://127.0.0.1:3000/').catch(e=>e.mes
 ```
 
 初回 `pwdev open` 時に自動生成される。手動で編集することで Chromium フラグを追加・変更できる。
+
+---
+
+## 4. login（erakis のプロファイルで kintone にログイン）
+
+前提: erakis のプロファイルが登録済み（`npx erakis profile list`）
+
+```bash
+pwdev open https://<ドメイン>.cybozu.com/k/<アプリID>/
+# ログイン画面が出ていることを確認する
+
+pwdev login <erakisプロファイル名> <アプリID>
+```
+
+**確認ポイント:**
+- `### Result` に `https://<ドメイン>.cybozu.com/k/<アプリID>/` が出て、ブラウザにレコード一覧が表示されること
+- 出力（`### Ran Playwright code` を含む）に認証値が出ていないこと。出てよいのは `http://127.0.0.1:<port>/<token>` だけ
+- `%TEMP%` に `pwdev-login-*.js` が残っていないこと
+
+**エラーの確認:**
+
+```bash
+pwdev login                                  # 使い方が出る
+pwdev login <存在しないプロファイル> 1       # プロファイルを読めないエラー
+pwdev login <プロファイル名> https://example.com/   # ドメインが違うエラー
+```

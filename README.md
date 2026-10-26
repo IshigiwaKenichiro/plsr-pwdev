@@ -41,9 +41,29 @@ pwdev --profile customer-a open https://example.com
 
 プロファイルは `~/.pwdev/profiles/<name>` に自動生成される。Cookie・LocalStorage・SSO 状態が維持される。
 
+### kintone にログインする
+
+```bash
+pwdev login <erakisプロファイル名> [アプリID または URL]
+
+pwdev login mine 194                                # https://<ドメイン>/k/194/ を開く
+pwdev login mine https://example.cybozu.com/k/194/  # URL で指定
+pwdev -s=mine login mine                            # セッションを指定。ページを省くとポータル（/k/）
+```
+
+[erakis](https://www.npmjs.com/package/erakis) のプロファイルにある認証情報で、起動中のブラウザから kintone にログインする。
+ログイン画面に手で入力しなくてよいので、AI エージェントにパスワードを渡さずに済む。
+
+- 先に `pwdev open` でブラウザを起動しておく
+- `X-Cybozu-Authorization`（プロファイルに Basic 認証があれば `Authorization` も）を、プロファイルのドメイン宛てのリクエストにだけ付ける
+- 認証値は出力・ファイル・コマンドライン引数に出さない
+- erakis は pwdev の依存ではない。カレントディレクトリのプロジェクト → グローバル → `npx erakis` のキャッシュの順に探す
+- ログイン後に残るのはセッション Cookie だけなので、ブラウザを起動し直したら `login` をやり直す
+- ページはアプリ ID か URL で指定する。Git Bash では `/k/194/` のような引数が `K:/194/` に書き換わるため、パスでは受けない
+
 ### その他のコマンド
 
-`open` 以外はすべて `playwright-cli` にそのまま委譲される。
+`open` と `login` 以外はすべて `playwright-cli` にそのまま委譲される。
 
 ```bash
 pwdev snapshot
