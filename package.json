@@ -1,6 +1,6 @@
 {
   "name": "plsr-pwdev",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Playwright CLI wrapper for local development — headed, persistent sessions, trusted localhost",
   "author": "Kenichiro Ishigiwa",
   "license": "MIT",

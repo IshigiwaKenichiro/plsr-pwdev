@@ -6,6 +6,14 @@
 バージョン番号は [Semantic Versioning](https://semver.org/lang/ja/) に従います。
 日付は npm への公開日です。
 
+## [0.2.0] - 2026-10-27
+
+### 追加
+
+- `pwdev login <erakisプロファイル名> [アプリID または URL]` — erakis のプロファイルの認証情報で、起動中のブラウザから kintone にログインする（#2）
+  - `X-Cybozu-Authorization`（Basic 認証があれば `Authorization` も）を、プロファイルのドメイン宛てのリクエストにだけ付ける
+  - 認証値は出力・ファイル・コマンドライン引数に出さない
+
 ## [0.1.0] - 2026-06-18
 
 初版リリース。
